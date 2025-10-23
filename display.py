@@ -28,48 +28,12 @@ pygame.font.init()
 
 font = pygame.font.SysFont('Comic Sans MS', 30)
 
-def out_of_bounds():
-    global bird_y
-    global bird_v
-    global alive 
-
-    if(bird_y < bird_r):
-        bird_v = 0
-        bird_y = bird_r
-        pygame.draw.circle(screen, bird_colour, (bird_x, bird_y), bird_r, width == 0)
-    if(bird_y > height - bird_r):
-        alive = False
-
-def apply_gravity():
-    global bird_y
-    global bird_v
-
-    bird_y += bird_v
-    bird_v += gravity
-
 def draw_score():
     global score
     global screen
 
     text_surface = font.render(str(round(score, 1)), False, (0, 0, 0))
     screen.blit(text_surface, (20, 20))
-
-def render_screen():
-    screen.fill(background_colour)
-    out_of_bounds()
-    apply_gravity()
-    draw_score()
-    draw_pipes()
-    check_pipe_collision()
-    pygame.draw.circle(screen, bird_colour, (bird_x, bird_y), bird_r, width == 0)
-    pygame.display.update()
-
-def render_death():
-    screen.fill((0, 0, 0))
-    text_surface = font.render(f"You Died, Score: {str(round(score, 1))}", False, (255, 255, 255))
-    rect = text_surface.get_rect(center = (width / 2, height / 2))
-    screen.blit(text_surface, rect)
-    pygame.display.update()
 
 def draw_pipes():
     global pipe_x
@@ -130,7 +94,42 @@ def check_pipe_collision():
         horizontal = True
     if vertical and horizontal:        
         alive = False
-    
+
+def out_of_bounds():
+    global bird_y
+    global bird_v
+    global alive 
+
+    if(bird_y < bird_r):
+        bird_v = 0
+        bird_y = bird_r
+        pygame.draw.circle(screen, bird_colour, (bird_x, bird_y), bird_r, width == 0)
+    if(bird_y > height - bird_r):
+        alive = False
+
+def apply_gravity():
+    global bird_y
+    global bird_v
+
+    bird_y += bird_v
+    bird_v += gravity
+
+def render_screen():
+    screen.fill(background_colour)
+    out_of_bounds()
+    apply_gravity()
+    draw_score()
+    draw_pipes()
+    check_pipe_collision()
+    pygame.draw.circle(screen, bird_colour, (bird_x, bird_y), bird_r, width == 0)
+    pygame.display.update()
+
+def render_death():
+    screen.fill((0, 0, 0))
+    text_surface = font.render(f"You Died, Score: {str(round(score, 1))}", False, (255, 255, 255))
+    rect = text_surface.get_rect(center = (width / 2, height / 2))
+    screen.blit(text_surface, rect)
+    pygame.display.update()
 
 running = True
 alive = True
